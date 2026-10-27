@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "职位筛选助手 · 列表 AI 初筛",
+  "version": "1.0.0",
+  "description": "在 BOSS 直聘采集用户自行筛选后的职位列表，由 DeepSeek 按简历做初筛并导出合适岗位。",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "alarms"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "optional_host_permissions": [
+    "https://api.deepseek.com/*"
+  ],
+  "minimum_chrome_version": "120",
+  "background": {
+    "service_worker": "background.js"
+  }
+}

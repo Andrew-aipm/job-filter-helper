@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>职位筛选助手 · 工作台</title>
+<link rel="stylesheet" href="style.css">
+<body>
+<main>
+<header>
+  <span>BOSS 直聘 · 列表采集 · AI 初筛</span>
+  <h1>已采集的职位</h1>
+  <p>先在 BOSS 网站筛选条件，扩展采集结果列表，DeepSeek 匹配简历后在下方显示合适岗位；点击导出才下载表格。</p>
+</header>
+
+<section>
+  <h2>简历与求职要求</h2>
+  <p><strong>AI 语义匹配：</strong>DeepSeek 根据你的简历、岗位实际职责和能力要求判断是否适合；不使用关键词或行业名称直接拦截。信息不足时标为待核实。</p>
+  <p>简历和求职要求只保存在本机浏览器（chrome.storage.local），不会上传到除 DeepSeek 以外的任何服务。</p>
+  <label>导入简历文件（TXT / MD）<input id="resumeFile" type="file" accept=".txt,.md"></label>
+  <label>简历<textarea id="resume" rows="8" placeholder="在此粘贴简历文本（至少 30 字），或使用上方按钮导入 TXT / MD 文件。"></textarea></label>
+  <label>求职要求<textarea id="preferences" rows="4" placeholder="例：目标岗位、期望城市、期望薪资范围、可接受的行业、明确的硬性要求。说明越具体，初筛越准确。"></textarea></label>
+  <label>最低匹配分<input id="threshold" type="number" value="70" min="0" max="100"></label>
+  <button id="save">保存资料</button>
+</section>
+
+<section>
+  <h2>DeepSeek 分析</h2>
+  <p>模型：deepseek-flash。简历、要求和职位卡片将发送至 DeepSeek 官方 API。Key 点击保存后锁定，并保存在本机浏览器；需要修改时点击编辑。无需逐个打开详情，列表未展示的完整 JD 不视为已核实。</p>
+  <label>DeepSeek API Key<input id="key" type="password" autocomplete="off" placeholder="sk-..."></label>
+  <button id="saveKey">保存</button>
+  <button id="editKey" disabled>编辑</button>
+  <button id="forgetKey">清除已保存Key</button>
+</section>
+
+<section>
+  <div class="toolbar">
+    <h2 id="count">已采集 0 条 · AI符合要求 0 条</h2>
+    <p id="collectionStatus"></p>
+    <button id="stopCollection">停止采集</button>
+    <button id="refresh">刷新</button>
+    <button id="clear">清空职位</button>
+    <button id="analyze">AI 分析</button>
+    <button id="stop" disabled>停止分析</button>
+    <button id="export">导出合适岗位 Excel</button>
+  </div>
+  <p>同一详情链接 7 天内只入库一次，重复岗位不占本轮 200 条新增额度。清空职位仍保留 7 天去重记录。仅采集当前列表已加载的职位。滚动或翻页后再次采集会按链接去重。列表未展示的字段留空，不代表没有要求；完整岗位要求仍以原详情页为准。</p>
+  <p id="status" role="status" aria-live="polite"></p>
+  <div class="table">
+    <table>
+      <thead><tr><th>岗位名称</th><th>公司</th><th>薪资</th><th>地点</th><th>匹配分／理由</th><th>详情</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>打招呼文本模板</h2>
+  <p>以下为通用模板，请把【】中的内容替换为你的真实经历后再复制；本工具不会自动发送任何消息，也不会自动投递简历。</p>
+  <div id="greetings" class="greetings"></div>
+</section>
+</main>
+<script src="xlsx.js"></script>
+<script src="matching.js"></script>
+<script src="history.js"></script>
+<script src="dashboard.js"></script>
+<script src="ai.js"></script>
+<script src="greetings.js"></script>
+</body>
+</html>
